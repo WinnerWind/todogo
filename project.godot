@@ -24,3 +24,11 @@ window/handheld/orientation=1
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/startup_runner/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://addons/": "gray",
+"res://scenes/": "green",
+"res://scripts/": "blue"
+}
