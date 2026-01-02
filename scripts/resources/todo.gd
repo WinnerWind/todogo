@@ -31,9 +31,26 @@ func _init() -> void:
 	expiry_date = CalendarDate.new()
 
 func has_expired() -> bool:
+	var today := CalendarDate.get_today()
 	match expiry_type:
 		ExpiryTypes.EXPIRE_ON_DATE:
-			var today := CalendarDate.get_today()
 			return CalendarDate.is_date_ahead(today,expiry_date) 
+		ExpiryTypes.EXPIRE_ON_SCHEDULE:
+			match expire_schedule_type:
+				ExpireScheduleTypes.ON_THESE_DAYS_OF_THE_MONTH:
+					return days_of_the_month_to_expire.has(today.day)
+				ExpireScheduleTypes.ON_THESE_MONTHS_OF_THE_YEAR:
+					return months_of_the_year_to_expire.has(today.month_number)
+				ExpireScheduleTypes.ON_THESE_MONTHS_OF_THE_YEAR_ON_GIVEN_DAYS:
+					return (months_of_the_year_to_expire.has(today.month_number) and days_of_the_month_to_expire.has(today.day))
+				ExpireScheduleTypes.ON_THESE_DAYS_OF_THE_YEAR:
+					for date in days_of_the_year_to_expire:
+						if CalendarDate.are_dates_same(date,today):
+							return true
+					return false
+				ExpireScheduleTypes.ON_THESE_DAYS_OF_THE_WEEK:
+					return days_of_the_week_to_expire.has(today.day_of_the_week)
+				_: 
+					return false
 		_:
 			return false
