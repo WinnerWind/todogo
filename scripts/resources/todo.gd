@@ -30,26 +30,28 @@ enum ExpireScheduleTypes {
 func _init() -> void:
 	expiry_date = CalendarDate.new()
 
-func has_expired() -> bool:
-	var today := CalendarDate.get_today()
+func expired_today() -> bool:
+	return has_expired_on_date(CalendarDate.get_today())
+
+func has_expired_on_date(date_to_check:CalendarDate) -> bool:
 	match expiry_type:
 		ExpiryTypes.EXPIRE_ON_DATE:
-			return CalendarDate.is_date_ahead(today,expiry_date) 
+			return CalendarDate.is_date_ahead(date_to_check,expiry_date) 
 		ExpiryTypes.EXPIRE_ON_SCHEDULE:
 			match expire_schedule_type:
 				ExpireScheduleTypes.ON_THESE_DAYS_OF_THE_MONTH:
-					return days_of_the_month_to_expire.has(today.day)
+					return days_of_the_month_to_expire.has(date_to_check.day)
 				ExpireScheduleTypes.ON_THESE_MONTHS_OF_THE_YEAR:
-					return months_of_the_year_to_expire.has(today.month_number)
+					return months_of_the_year_to_expire.has(date_to_check.month_number)
 				ExpireScheduleTypes.ON_THESE_MONTHS_OF_THE_YEAR_ON_GIVEN_DAYS:
-					return (months_of_the_year_to_expire.has(today.month_number) and days_of_the_month_to_expire.has(today.day))
+					return (months_of_the_year_to_expire.has(date_to_check.month_number) and days_of_the_month_to_expire.has(date_to_check.day))
 				ExpireScheduleTypes.ON_THESE_DAYS_OF_THE_YEAR:
 					for date in days_of_the_year_to_expire:
-						if CalendarDate.are_dates_same(date,today):
+						if CalendarDate.are_dates_same(date,date_to_check):
 							return true
 					return false
 				ExpireScheduleTypes.ON_THESE_DAYS_OF_THE_WEEK:
-					return days_of_the_week_to_expire.has(today.day_of_the_week)
+					return days_of_the_week_to_expire.has(date_to_check.day_of_the_week)
 				_: 
 					return false
 		_:
