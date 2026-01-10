@@ -52,6 +52,16 @@ static func are_dates_same(first_date:CalendarDate, second_date:CalendarDate) ->
 	and (first_date.month == second_date.month) \
 	and (first_date.day == second_date.day)
 
+static func get_days_in_range(start_date:CalendarDate, end_date:CalendarDate) -> Array[CalendarDate]:
+	#inclusive of the final date too, for parity reasons
+	var days:Array[CalendarDate] = [start_date] #inclusive
+	while not CalendarDate.are_dates_same(start_date,end_date):
+		var next_day:CalendarDate = CalendarDate.get_day_offset(start_date,1)
+		days.append(next_day)
+		start_date = next_day
+	return days
+
+
 static func get_day_offset(date:CalendarDate,offset:int)->CalendarDate:
 	# Get the next,previous etc. day by adding offset of +1/-1 to a date
 	var cal:Calendar.Date = Calendar.Date.new(date.year,date.month_number,date.day)
