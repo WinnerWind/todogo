@@ -53,3 +53,14 @@ static func are_dates_same(first_date:CalendarDate, second_date:CalendarDate) ->
 	return (first_date.year == second_date.year) \
 	and (first_date.month == second_date.month) \
 	and (first_date.day == second_date.day)
+
+static func get_day_offset(date:CalendarDate,offset:int)->CalendarDate:
+	# Get the next,previous etc. day by adding offset of +1/-1 to a date
+	var cal:Calendar.Date = Calendar.Date.new(date.year,date.month_number,date.day)
+	print(date.as_string)
+	cal.add_days(offset)
+	var new_date:CalendarDate = CalendarDate.new()
+	new_date.year = cal.year
+	new_date.month = cal.month
+	new_date.day = cal.day
+	return new_date
