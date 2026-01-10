@@ -14,7 +14,6 @@ var day_of_the_week:DaysOfTheWeek:
 		# tldr magically poof a date time dict
 		# and re-get the new date time dict to fetch the weekday
 		var dict := Time.get_datetime_dict_from_system()
-		print(as_string)
 		dict["day"] = day
 		dict["month"] = month_number
 		dict["year"] = year
@@ -22,9 +21,8 @@ var day_of_the_week:DaysOfTheWeek:
 		dict = Time.get_datetime_dict_from_unix_time(unix)
 		return dict["weekday"]
 
-var as_string:String:
-	get:
-		return "%s-%s-%s"%[day,month_number,year]
+func _to_string() -> String:
+	return "%s-%s-%s"%[day,month_number,year]
 static func get_today() -> CalendarDate:
 	var date = CalendarDate.new()
 	
@@ -57,10 +55,9 @@ static func are_dates_same(first_date:CalendarDate, second_date:CalendarDate) ->
 static func get_day_offset(date:CalendarDate,offset:int)->CalendarDate:
 	# Get the next,previous etc. day by adding offset of +1/-1 to a date
 	var cal:Calendar.Date = Calendar.Date.new(date.year,date.month_number,date.day)
-	print(date.as_string)
 	cal.add_days(offset)
 	var new_date:CalendarDate = CalendarDate.new()
 	new_date.year = cal.year
-	new_date.month = cal.month
+	new_date.month = cal.month-1 #my code uses zero indexed months!!!!! 30 minutes down the drain
 	new_date.day = cal.day
 	return new_date
