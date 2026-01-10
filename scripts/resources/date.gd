@@ -5,6 +5,7 @@ class_name CalendarDate
 @export_enum("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec") var month:int = 0
 var month_number: 
 	get: return month+1
+	set(new): month =  clampi(new-1,0,11)
 @export_range(1,31) var day:int = 1
 
 enum DaysOfTheWeek {SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY}
@@ -23,6 +24,7 @@ var day_of_the_week:DaysOfTheWeek:
 
 func _to_string() -> String:
 	return "%s-%s-%s"%[day,month_number,year]
+
 static func get_today() -> CalendarDate:
 	var date = CalendarDate.new()
 	
@@ -68,6 +70,6 @@ static func get_day_offset(date:CalendarDate,offset:int)->CalendarDate:
 	cal.add_days(offset)
 	var new_date:CalendarDate = CalendarDate.new()
 	new_date.year = cal.year
-	new_date.month = cal.month-1 #my code uses zero indexed months!!!!! 30 minutes down the drain
+	new_date.month_number = cal.month #my code uses zero indexed months!!!!! 30 minutes down the drain
 	new_date.day = cal.day
 	return new_date
