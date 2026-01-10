@@ -5,7 +5,7 @@ class_name CalendarDate
 @export_enum("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec") var month:int = 0
 var month_number: 
 	get: return month+1
-@export_range(1,31) var day:int
+@export_range(1,31) var day:int = 1
 
 enum DaysOfTheWeek {SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY}
 var day_of_the_week:DaysOfTheWeek:
