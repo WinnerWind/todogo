@@ -32,7 +32,7 @@ enum ExpireScheduleTypes {
 func _init() -> void:
 	expiry_date = CalendarDate.new()
 
-func expired_today() -> bool:
+func has_expired_today() -> bool:
 	return has_expired_on_date(CalendarDate.get_today())
 
 func has_expired_on_date(date_to_check:CalendarDate) -> bool:
