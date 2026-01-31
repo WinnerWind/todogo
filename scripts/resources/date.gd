@@ -25,6 +25,11 @@ var day_of_the_week:DaysOfTheWeek:
 func _to_string() -> String:
 	return "%s-%s-%s"%[day,month_number,year]
 
+func _init(new_day:int = 1, new_month_number:int = 1, new_year:int = 2026) -> void:
+	day = new_day
+	month_number = new_month_number
+	year = new_year
+
 static func get_today() -> CalendarDate:
 	var date = CalendarDate.new()
 	
@@ -68,8 +73,6 @@ static func get_day_offset(date:CalendarDate,offset:int)->CalendarDate:
 	# Get the next,previous etc. day by adding offset of +1/-1 to a date
 	var cal:Calendar.Date = Calendar.Date.new(date.year,date.month_number,date.day)
 	cal.add_days(offset)
-	var new_date:CalendarDate = CalendarDate.new()
-	new_date.year = cal.year
-	new_date.month_number = cal.month #my code uses zero indexed months!!!!! 30 minutes down the drain
-	new_date.day = cal.day
+	#my code uses zero indexed months!!!!! 30 minutes down the drain
+	var new_date:CalendarDate = CalendarDate.new(cal.day, cal.month, cal.year)
 	return new_date
