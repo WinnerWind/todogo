@@ -18,6 +18,8 @@ enum ExpireScheduleTypes {
 	 }
 @export var expire_schedule_type:ExpireScheduleTypes
 
+@export_subgroup("Expiry")
+@export var expired:bool = false
 @export_subgroup("Expiry/Schedule")
 @export var days_of_the_month_to_expire:Array[int] #use this and months of the year to expire to expire on given days
 @export var months_of_the_year_to_expire:Array[int]
@@ -52,7 +54,13 @@ func has_expired_on_date(date_to_check:CalendarDate) -> bool:
 					return false
 				ExpireScheduleTypes.ON_THESE_DAYS_OF_THE_WEEK:
 					return days_of_the_week_to_expire.has(date_to_check.day_of_the_week)
-				_: 
+				_:
 					return false
 		_:
 			return false
+
+func set_expired_state_on_date(date:CalendarDate) -> void:
+	set_expired_state(has_expired_on_date(date))
+
+func set_expired_state(new_state:bool) -> void:
+	expired = new_state if expired != true else true #keep it on true even if multiple days pass
