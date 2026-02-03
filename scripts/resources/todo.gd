@@ -64,3 +64,22 @@ func set_expired_state_on_date(date:CalendarDate) -> void:
 
 func set_expired_state(new_state:bool) -> void:
 	expired = new_state if expired != true else true #keep it on true even if multiple days pass
+
+func to_dict() -> Dictionary:
+	var new:Dictionary[String,Variant] = {}
+	new["title"] = title
+	new["description"] = description
+	
+
+	new["expired"] = expired
+	new["expire_schedule_type"] = expire_schedule_type
+
+	new["days_of_the_month_to_expire"] = days_of_the_month_to_expire
+	new["months_of_the_year_to_expire"] = months_of_the_year_to_expire
+	new["days_of_the_year_to_expire"] = days_of_the_year_to_expire. \
+			map(func(date:CalendarDate): return str(date))
+	new["days_of_the_week_to_expire"] = days_of_the_week_to_expire
+
+	new["expiry_date"] = expiry_date
+
+	return new

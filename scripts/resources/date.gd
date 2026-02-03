@@ -25,6 +25,14 @@ var day_of_the_week:DaysOfTheWeek:
 func _to_string() -> String:
 	return "%s-%s-%s"%[day,month_number,year]
 
+static func from_string(date:String):
+	# assume in format dd-mm-yyyy
+	var split:Array[String] = date.split("-")
+	var n_day = split[0]
+	var n_month = split[1]
+	var n_year = split[2]
+	return CalendarDate.new(n_day, n_month, n_year)
+
 func _init(new_day:int = 1, new_month_number:int = 1, new_year:int = 2026) -> void:
 	day = new_day
 	month_number = new_month_number
@@ -76,3 +84,5 @@ static func get_day_offset(date:CalendarDate,offset:int)->CalendarDate:
 	#my code uses zero indexed months!!!!! 30 minutes down the drain
 	var new_date:CalendarDate = CalendarDate.new(cal.day, cal.month, cal.year)
 	return new_date
+
+

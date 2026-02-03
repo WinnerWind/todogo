@@ -5,6 +5,8 @@ var save_backup_path = "user://userdata.savebak"
 
 #Also acts as default save values.
 var ram_save = {
+	"todos" : [{}],
+	"last_opened": "1970-01-01"
 }: #SaveData currently being accessed by the game
 	set(new_save):
 		ram_save = new_save
@@ -48,7 +50,10 @@ func load_save():
 
 func store(key:String, data:Variant):
 	if ram_save.has(key):
-		ram_save[key] = data
+		if typeof(ram_save[key]) == typeof(data): #type check
+			ram_save[key] = data
+		else: 
+			printerr("Key %s is of an invalid type to the inserted data!"%key)
 	else:
 		printerr("Key %s not found in user data!"%key)
 
