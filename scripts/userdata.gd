@@ -51,7 +51,10 @@ func load_save():
 func store(key:String, data:Variant):
 	if ram_save.has(key):
 		if typeof(ram_save[key]) == typeof(data): #type check
-			ram_save[key] = data
+			if data is Array:
+				ram_save[key] = _array_as_dict(data)
+			else:
+				ram_save[key] = data
 		else: 
 			printerr("Key %s is of an invalid type to the inserted data!"%key)
 	else:
@@ -64,4 +67,14 @@ func _ready():
 	if FileAccess.file_exists(save_path):
 		var dir = DirAccess.open("user://")
 		dir.copy(save_path,save_backup_path)
-	
+
+
+func _array_as_dict(arr:Array) -> Array:
+	return arr.map(_as_dict)
+
+func _as_dict(variable:Variant) -> Dictionary:
+	if variable is ToDoResource:
+		return variable.to_dict()
+	else:
+		printerr("Provided variable %s is of an invalid type!" % variable)
+		return {}
